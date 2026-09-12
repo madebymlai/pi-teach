@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+
+# Upstream reference clone; imported resources are tracked separately.
+/sources/learn/
