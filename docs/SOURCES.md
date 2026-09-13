@@ -11,5 +11,5 @@ Index of reference links. Local copies are stored under `sources/`; individual s
 ## Installable resources
 
 - `skills/teach/`: university adaptation of the preserved `sources/teach/` snapshot. Course and source formats use the consolidated names; the source snapshot remains unchanged.
-- `extensions/quiz.ts`: unchanged copy of Learn's Quiz extension from commit `7cfd8942f82ab9476e63572387e1fe9bcea5082c`. The installer copies this file only; the global `ask_user_question` remains in use.
+- `extensions/quiz.ts`: adapted from Learn's Quiz extension at commit `7cfd8942f82ab9476e63572387e1fe9bcea5082c`; tool guidance is shortened and routes open-ended responses to Ask User Question for tutor review. Grading and UI logic are unchanged. The installer copies this file only; the global `ask_user_question` remains in use.
 - `templates/vault/`: Pi Teach's subject-vault scaffolding, installed alongside those local resources.

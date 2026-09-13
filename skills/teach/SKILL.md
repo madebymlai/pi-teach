@@ -25,7 +25,7 @@ Treat the current directory as a teaching workspace. The state of their learning
 Before teaching, including after a new session, compaction, or course switch:
 
 1. Resolve the selected subject vault and read `COURSE.md`, `SOURCES.md`, and `Roadmap.md`. Ask the student when the workspace is ambiguous. Onboarding uses the global `ask_user_question`, one question at a time; confirm missing goals, exam facts, and study availability before relying on them. Installer placeholders mean unconfirmed information.
-2. List `learning-records/` and read the latest actual study record plus records relevant to the planned topic, prerequisites, unresolved misconceptions, and their superseding records. For a small course, read all records. Establish the previous lesson actually studied and any unfinished exercise; a lesson file's existence alone does not establish that it was studied. Load the relevant topic, lesson index, glossary entries if present, and source pages.
+2. List `learning-records/` and read the latest actual study record plus records relevant to the planned topic, prerequisites, unresolved misconceptions, and their superseding records. For a small course, read all records. Establish the previous lesson actually studied and any unfinished task; a lesson file's existence alone does not establish that it was studied. Load the relevant topic, lesson index, glossary entries if present, and source pages.
 3. Determine today's date and compare the agreed timeline with actual work. If there is no agreed timeline yet, build it using [ROADMAP-FORMAT.md](./ROADMAP-FORMAT.md). If delays, substantial learning gaps, or changed constraints make it unworkable, use that document's explicit replanning procedure. Ordinary session progress leaves `Roadmap.md` unchanged.
 4. Confirm today's available time when unknown, then give the timed briefing below. Select the next lesson from the timeline and actual continuation point, accounting for the prerequisites the records show need attention.
 
@@ -44,11 +44,11 @@ Actual position: <last lesson studied, unfinished work, relevant difficulty>
 ② Lesson · <minutes>
    <existing numbered HTML lesson, or the tightly scoped lesson to create>
    Objective: <what the student will be able to do>
-   Sources: <exact PDF file/pages>
+   Sources: <exact source pages or sections>
    Why next: <connection to the roadmap and prerequisites>
 
 ③ Practice and feedback · <minutes>
-   Essential: <specific exercises/tasks and what a complete answer requires>
+   Essential: <questions or exercises and what a complete answer requires>
    Optional extras: <only if time remains>
 
 Breaks and close: <minutes reserved within the available time>
@@ -140,18 +140,16 @@ When course materials are missing, contradictory, or unclear about assessment re
 
 For acquiring knowledge, difficulty is the enemy. It eats working memory you need for understanding.
 
-## Skills
+## Practice and feedback
 
-If knowledge is all about acquisition, skills are about durability and flexibility. Make the knowledge stick.
+Match practice to the assessment. Use supplied exercises when available, or create source-grounded recall, explanation, comparison, and application questions, labelled as generated. Exercise sheets are optional.
 
-For skill acquisition, difficulty is the tool. Effortful retrieval is what builds storage strength. Skills should be taught through interactive lessons. There are several tools at your disposal:
+For new material, explain why it works and give a worked example before independent practice. Hints are available on request.
 
-- Interactive lessons, using quizzes and light in-browser tasks
-- Lessons which guide the user through a proof, implementation, or other exam-relevant task
+- **Multiple-choice:** use `quiz` for selecting answers and diagnosing specific misconceptions.
+- **Open response:** use `ask_user_question` without options, one scoped question at a time. Ask the student to answer fully in their own words, with reasoning, relevant examples, and any uncertainty. Review code, diagrams, or handwritten work directly when the task requires them.
 
-Each of these should be based on a **feedback loop**, where the user receives feedback on their performance. This feedback loop should be as tight as possible, giving feedback immediately - and ideally automatically.
-
-For new material, explain the idea and why it works, give a motivated worked example, then offer independent practice and feedback. Hints are available on request. Use the local `quiz` tool for graded multiple-choice diagnostics and retrieval; review derivations, proofs, code, and explanations directly. Keep quiz options similar in length and phrasing so formatting does not reveal the answer. Distinguish official exercises from generated variants and keep solutions out of view until the student has attempted the task.
+Wait for the attempt before revealing a model answer. Assess accuracy, completeness, and reasoning against the sources; identify what is missing and ask a targeted follow-up. Judge the content rather than the answer's length.
 
 ## Topic references and learning updates
 

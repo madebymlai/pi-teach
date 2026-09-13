@@ -2,7 +2,7 @@
 
 ## Course material
 
-Add lecturer PDFs, exercise sheets, and past papers here. For each entry, include its path or URL, coverage, when to use it, and exact PDF-page or exercise references. Originals can live in `Sources/` or remain linked in place.
+Add available course materials here, including exercise sheets or past papers when provided. Annotate each path or URL with its coverage, use, and exact pages or sections. Originals can live in `Sources/` or remain linked in place.
 
 ## Supporting references
 

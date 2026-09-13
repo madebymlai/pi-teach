@@ -54,7 +54,7 @@ Explain why a method works, when it applies, and which assumptions it requires. 
 - Mathematics: preserve the student's derivation, including handwritten images when useful.
 - Programming: assess student-written code through tests, correctness reasoning, and complexity analysis.
 - Oral exams: definitions with hypotheses, proof reconstruction, and follow-up questions. Assess spoken delivery through spoken work.
-- Design/theory questions: assess reasoning against an explicit rubric.
+- Open-ended questions: collect full written explanations through `ask_user_question` without options, then assess accuracy, completeness, and reasoning against the sources. Generate practice from course material when exercise sheets are absent.
 
 Record the assistance received when interpreting performance. Mark uncertain feedback or transcription for verification.
 

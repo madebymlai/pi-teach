@@ -50,7 +50,7 @@ The installer works offline, copies local resources, and leaves global Pi and Ob
 
 Onboarding builds and agrees `Roadmap.md` as the dated timeline through exam day. It changes only through explicit replanning when delays, substantial learning gaps, or changed constraints require it.
 
-Each `/skill:teach` session reads that timeline and the learning records, then gives a timed recall → lesson → practice-and-feedback briefing. Recall targets the previous lesson actually studied and persistent difficulties. The briefing names the next lesson objective, source pages, exercises, and a budget that includes breaks and closing.
+Each `/skill:teach` session reads that timeline and the learning records, then gives a timed recall → lesson → practice-and-feedback briefing. Recall targets the previous lesson actually studied and persistent difficulties. The briefing names the next lesson objective, sources, practice, and a budget that includes breaks and closing. Practice can use supplied exercises, generated questions, multiple-choice quizzes, or full written explanations; exercise sheets are optional.
 
 `learning-records/` preserves what actually happened, how the student worked, assistance, results, and where to resume. Ordinary sessions leave the roadmap unchanged. These are skill instructions; live behavioral validation is still pending.
 
@@ -58,7 +58,7 @@ Each `/skill:teach` session reads that timeline and the learning records, then g
 
 Teach is adapted from [Matt Pocock's skill](https://github.com/mattpocock/skills/tree/main/skills/productivity/teach) to use `COURSE.md`, `SOURCES.md`, the roadmap, topics, and evidence-bearing learning records. Matt's original snapshot remains under `sources/teach/`. The Learn reference clone at `sources/learn/` is local-only and excluded from Git; the imported Quiz file is included.
 
-Quiz is imported unchanged from [Amos Blomqvist's Learn](https://github.com/amosblomqvist/learn). It runs in Pi's interactive terminal. Resource loading was smoke-tested with Pi 0.85.1; interactive Quiz behavior and teaching continuity still need manual validation.
+Quiz comes from [Amos Blomqvist's Learn](https://github.com/amosblomqvist/learn), with shorter tool guidance distinguishing multiple-choice grading from open-ended answers collected through Ask User Question and reviewed by the tutor. Its grading and UI logic are unchanged. It runs in Pi's interactive terminal. Resource loading was smoke-tested with Pi 0.85.1; interactive Quiz behavior and teaching continuity still need manual validation.
 
 **HTML viewing inside Obsidian is not configured yet.** The vault shows unsupported file types, but that does not supply an HTML renderer. Viewer selection, local serving, rendering tests, and automatic results handoff remain pending. See [the design](docs/DESIGN.md) and [memory contract](docs/MEMORY.md).
 
