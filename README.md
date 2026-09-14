@@ -58,14 +58,14 @@ If `.obsidian/community-plugins.json` already exists, its plugin selection is pr
 
 Click the **lessons folder name** to open `lessons/lessons.md`; its disclosure arrow still expands/collapses the folder. Without Folder Notes, open the Markdown file directly. Teach maintains this plain index; no dynamic overview or Dataview is required.
 
-The index groups existing lessons under headings linking to their topic synopsis:
+The index groups existing lessons under headings linking to their topic learning-outcome sheet:
 
 ```md
 ## [[topics/induction|Induction]]
 - [[lessons/0001-first-induction-proof.html|0001 — First induction proof]]
 ```
 
-Topic pages are university-style synopses: scope, definitions, hypotheses, principal results, and conceptual connections with precise sources. They do not list lessons or track progress. The index points to topics, not the reverse. Lesson pages link back to the index and their synopsis. New vaults start with an empty index; lesson availability never implies completion.
+Topic pages specify scope, entry prerequisites, required knowledge, observable skills, and concrete verification criteria with exact sources. They are requirements sheets, not theoretical summaries: explanations, worked examples, and proofs belong in lessons. Use [the topic format](skills/teach/TOPIC-FORMAT.md). Topic pages do not list lessons or track progress. The index points to topics, not the reverse. Lesson pages link back to the index and their topic sheet. New vaults start with an empty index; lesson availability never implies completion.
 
 Folder Notes is configured for navigation without automatic note creation, rename/move/delete synchronization, or generated overviews. Its AGPL license and corresponding-source directions are shipped with the unmodified plugin; see [provenance](docs/SOURCES.md). Folder-click behavior still needs a live Obsidian smoke test.
 

@@ -12,7 +12,7 @@ Help a computer-science university student organize daily study and prepare for 
 - **Use Matt Pocock's `teach` skill as the teaching entry point.** It owns onboarding, the timed recall → lesson → practice routine, teaching, and continuity.
 - **Keep planned and actual work separately owned.** `Roadmap.md` is the agreed timeline built during onboarding, edited only through explicit replanning. `learning-records/` captures what actually happened, how the student worked, and where to continue.
 - Course materials include lesson PDFs and exercises when available.
-- **Topics** are university-style synopses in Obsidian Markdown: scope, prerequisites, definitions, hypotheses, principal results, and conceptual connections grounded in course sources. They are academic references rather than lesson directories.
+- **Topics** are learning-outcome sheets in Obsidian Markdown, specifying source-grounded requirements rather than teaching the theory. Authoring follows [TOPIC-FORMAT.md](../skills/teach/TOPIC-FORMAT.md).
 - **Lessons** are sequentially numbered HTML teaching units following Matt Pocock's Teach convention: `lessons/0001-slug.html`. They open inside Obsidian alongside topic notes and course PDFs.
 - `install.py` asks for the subject name and provisions one vault at `cwd/<subject>/`, including the adapted Teach skill and Quiz extension under that vault's `.pi/`.
 - **Pi runs alongside Obsidian.** Pi handles tutoring and planning; Obsidian displays and stores the study workspace.
@@ -107,8 +107,8 @@ cwd/<subject>/
 - `Roadmap.md`: the complete dated timeline agreed during onboarding, with topic objectives, planned practice, review, and checkpoints. Changes only during explicit replanning; actual progress and continuation are owned by learning records.
 - `Sources/`: original course files and labelled derivatives, indexed in `SOURCES.md`. External references can remain links; local-copy policy is not decided yet.
 - `learning-records/`: concise numbered records of actual study, attempts, approach, assistance, feedback, insights, and the stopping point. Distinguish exposure, assisted completion, independent performance, and delayed recall.
-- `topics/`: source-grounded university-style synopses, without lesson lists or study state.
-- `lessons/lessons.md`: general lesson index grouped by topic, with each topic heading linking to its synopsis. Navigation only; actual work remains in learning records.
+- `topics/`: source-grounded learning targets and verification criteria, without theoretical exposition, lesson lists, or study state.
+- `lessons/lessons.md`: general lesson index grouped by topic, with each topic heading linking to its learning-outcome sheet. Navigation only; actual work remains in learning records.
 - `lessons/`: sequentially numbered HTML teaching units, each developing one capability through explanation, practice, and feedback.
 - `assets/`: shared lesson stylesheets, quiz widgets, diagram helpers, and other reusable teaching assets.
 
@@ -118,7 +118,7 @@ The `pi-teach` software repository stays separate from the student's vault. Its 
 
 ### Topics and lessons
 
-A topic page is a university-style synopsis of a subject area as presented in the sources. For example, `topics/induction.md` explains the induction principle, hypotheses, forms, connections, and role of its proof, with exact lecturer references. It stands independently of the student's lesson sequence and contains no lesson index. Its content changes as sources are clarified or expanded.
+A topic page defines concrete learning outcomes supported by course sources. For example, `topics/induction.md` names the principle to recall and requires constructing an induction proof with a valid base, a stated hypothesis, and a justified step on a new problem. It specifies entry prerequisites and what an adequate attempt must demonstrate, but leaves the explanation and worked proof to lessons. The authoring contract is [TOPIC-FORMAT.md](../skills/teach/TOPIC-FORMAT.md); targets remain separate from the student's actual performance.
 
 A lesson develops a tightly-scoped capability through a short teaching sequence adapted to the learner. For example, `lessons/0001-first-induction-proof.html` introduces a motivated example, explains the reasoning, and provides practice with feedback. Several lessons can develop different capabilities within one topic.
 
@@ -179,7 +179,7 @@ A flashcard scheduler, if adopted, owns card review state. Pi uses that schedule
 
 ### Native study material
 
-Use Obsidian Markdown for topic overviews, the roadmap, and learning records, with LaTeX/MathJax, Mermaid, callouts, source links, images, PDF embeds, and a small CSS snippet. Example for a PDF stored inside the vault:
+Use Obsidian Markdown for topic learning-outcome sheets, the roadmap, and learning records, with LaTeX/MathJax, Mermaid, callouts, source links, images, PDF embeds, and a small CSS snippet. Example for a PDF stored inside the vault:
 
 ```md
 ![[Sources/lecture-03.pdf#page=7]]
@@ -195,7 +195,7 @@ HTML lessons open directly in an Obsidian tab or split pane using the bundled St
 
 Obsidian sanitizes HTML inside Markdown notes, including scripts. Use the dedicated lesson viewer and preserve Markdown sanitization.
 
-Test navigation from the lessons folder to its Markdown index, from linked headings to topic synopses, and from index entries to HTML lessons and back, plus source links and rendering of mathematics, diagrams, and interactive exercises inside Obsidian. Validate the results handoff before using lesson activity as learning evidence. Until then, the student brings their work back to Pi for review.
+Test navigation from the lessons folder to its Markdown index, from linked headings to topic learning-outcome sheets, and from index entries to HTML lessons and back, plus source links and rendering of mathematics, diagrams, and interactive exercises inside Obsidian. Validate the results handoff before using lesson activity as learning evidence. Until then, the student brings their work back to Pi for review.
 
 ## Setup script
 
@@ -226,7 +226,7 @@ Prove one real study day before expanding the system:
 4. Invoke `teach` to select or create a lesson from the roadmap and learning records, then work through it with the student.
 5. Record help, result, misconception, and next action.
 6. Start a fresh Pi session and verify it uses the saved mission, preferences, and learning record to select tomorrow's work without duplicate progress updates.
-7. Click the lessons folder to open its grouped index. Follow a topic heading to its synopsis and a lesson entry to its numbered HTML page in an Obsidian tab or split pane. Verify mathematics, diagrams, interactions, shared assets, and navigation back to course sources.
+7. Click the lessons folder to open its grouped index. Follow a topic heading to its learning-outcome sheet and a lesson entry to its numbered HTML page in an Obsidian tab or split pane. Verify mathematics, diagrams, interactions, shared assets, and navigation back to course sources.
 
 Keep the prototype focused on this complete study-and-resume loop.
 

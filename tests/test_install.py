@@ -48,7 +48,8 @@ class InstallerTests(unittest.TestCase):
             self.assertTrue((vault / name).is_dir(), name)
         self.assertEqual(list((vault / "learning-records").iterdir()), [])
         json.loads((vault / ".obsidian/app.json").read_text())
-        for name in ("SKILL.md", "GLOSSARY-FORMAT.md", "LEARNING-RECORD-FORMAT.md", "agents/openai.yaml"):
+        for name in ("SKILL.md", "GLOSSARY-FORMAT.md", "LEARNING-RECORD-FORMAT.md", "TOPIC-FORMAT.md", "agents/openai.yaml"):
+            self.assertTrue((vault / ".pi/skills/teach" / name).is_file(), f"Missing bundled format: {name}")
             self.assertEqual(
                 (vault / ".pi/skills/teach" / name).read_bytes(),
                 (ROOT / "skills/teach" / name).read_bytes(),

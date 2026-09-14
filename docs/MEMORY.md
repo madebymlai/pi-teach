@@ -14,7 +14,7 @@ The installer creates one subject vault per folder: `cwd/<subject>/`. Each vault
 
 | Document | Meaning and ownership |
 | --- | --- |
-| `COURSE.md` | Personal exam goal, observable success criteria, syllabus, assessment format/dates, constraints, availability, teaching preferences, course notation, and unresolved questions. Confirm substantive goal changes with the student. Date temporary working context. |
+| `COURSE.md` | Personal exam goal, observable success criteria, syllabus, assessment format/dates, constraints, availability, teaching preferences, course notation, and unresolved questions. Apply the update gate in [COURSE-FORMAT.md](../skills/teach/COURSE-FORMAT.md) before each edit. |
 | `SOURCES.md` | Annotated source index: what each source covers, when to use it, exact references, and gaps. Includes lecturer PDFs, exercise sheets, past papers, and appropriate human resources such as office hours. |
 | `Roadmap.md` | The agreed timeline from onboarding through exam day: dates, objectives, planned practice, review, and checkpoints. Edited only through explicit replanning. |
 | `learning-records/NNNN-slug.md` | What the student actually studied and did, how they approached it, assistance, recall results, insights, and difficulties. Includes supporting work, feedback, and the continuation point. |
@@ -23,8 +23,8 @@ These documents consolidate Teach's goal, resource, and preference memory into t
 
 - Optional `GLOSSARY.md`: compressed terminology established with the learner. Add terms after demonstrated understanding and revise definitions as it deepens. Course-wide notation lives in `COURSE.md`; current recall is checked through review.
 - Student work and feedback belong in the relevant learning record, with attachments when needed.
-- `topics/`: university-style synopses grounded in course sources, with prerequisites, definitions, hypotheses, principal results, and conceptual connections; no lesson lists or study state.
-- `lessons/lessons.md`: the navigation index, grouped under headings linking to topic synopses. Its entries identify existing lessons, not lessons studied.
+- `topics/`: source-grounded learning-outcome sheets following [TOPIC-FORMAT.md](../skills/teach/TOPIC-FORMAT.md). They define required knowledge, skills, prerequisites, and verification criteria, not teaching explanations or personal mastery.
+- `lessons/lessons.md`: the navigation index, grouped under headings linking to topic learning-outcome sheets. Its entries identify existing lessons, not lessons studied.
 - `lessons/0001-slug.html`: sequentially numbered HTML teaching units, each developing one capability through explanation, practice, and feedback. Lesson scope and selection are adapted using learning records.
 
 `SOURCES.md` indexes the original materials and labelled derivatives stored in `Sources/`.
@@ -60,7 +60,7 @@ Before teaching after startup, a new session, compaction, or a course switch:
 
 1. Resolve the course from the selected task/workspace. Ask when ambiguous.
 2. Load `COURSE.md`, `SOURCES.md`, the current roadmap, and a map of the course's available learning records.
-3. Read the latest actual study record and records for the planned outcome, prerequisites, unresolved misconceptions, and any superseding evidence. Load `lessons/lessons.md`, the relevant topic synopsis, source references, and glossary entries if a glossary exists.
+3. Read the latest actual study record and records for the planned outcome, prerequisites, unresolved misconceptions, and any superseding evidence. Load `lessons/lessons.md`, the relevant topic sheet, source references, and glossary entries if a glossary exists.
 4. Compare the dated timeline with the actual continuation point. Present a timed recall → lesson → practice-and-feedback briefing; recall includes the previous lesson actually studied and persistent errors. Resolve uncertain activity by asking the student rather than inferring it from existing lesson files.
 
 Start with direct files. Small courses can load all learning records. If growth later requires an index, use a rebuildable navigation aid with coverage and freshness checks. Read the relevant source records and check retrieval coverage before concluding that history is absent.
@@ -72,7 +72,7 @@ The setup provisions the university-adapted `teach` skill and an explicit Pi con
 - Persist actual work and evidence at meaningful milestones and stopping points so the continuation point survives interruptions.
 - Create `Roadmap.md` during onboarding and edit it only through explicit, agreed replanning. Ordinary completion, recall outcomes, and local session adjustments belong in learning records; leave timeline rows unchanged.
 - Within a learning record, distinguish the student's original work from corrections and feedback. Feedback must not replace their answer with the tutor's solution.
-- Update `COURSE.md` when goals, constraints, preferences, or course facts change; update `SOURCES.md` when source coverage or reliability changes.
+- Apply [COURSE-FORMAT.md](../skills/teach/COURSE-FORMAT.md) when updating the course profile; update `SOURCES.md` when source coverage or reliability changes.
 - Keep updates visible and allow corrections. Confirm changes to the student's goals and consequential planning trade-offs.
 - Re-read before writing and detect conflicting edits. Pi and Obsidian share files; neither should silently overwrite the other's changes.
 - Use one writer for shared learning state. Research and visualization helpers return findings to that writer.
@@ -102,7 +102,9 @@ These are live behavioral checks; installer and resource-loading tests do not es
 - **Course switch:** selecting another course uses its mission and records; returning restores the original course context.
 - **Correction:** a later successful independent exercise supersedes the earlier interpretation while preserving the evidence history.
 - **Preferences:** the next session applies the recorded teaching preferences.
-- **Lesson navigation:** creating a lesson adds its numbered link under a heading linked to the topic synopsis in `lessons/lessons.md`. The synopsis remains an academic reference without lesson links. Renaming a lesson repairs the index link while preserving annotations; neither operation invents study completion. Check these behaviors live, not through installer tests alone.
+- **Stable course profile:** save `COURSE.md` bytes, then correct an explanation, change folder navigation, and record a one-session time reduction. Each change reaches its appropriate owner; `COURSE.md` remains byte-identical. Next, explicitly change the student's recurring weekly availability: amend only the relevant course entry with the confirmed constraint, without appending the conversation or technical history. Verify this behavior in a live session, not by checking instruction strings.
+- **Topic outcomes:** author a topic from source pages and exercises. It names required knowledge, concrete skills, entry prerequisites, and a matching verification task for every skill. Each task states what constitutes an adequate answer. The topic contains no worked solutions or claims of student mastery; uncertain exam requirements are labelled. Inspect this live output, not only the presence of a bundled format file.
+- **Lesson navigation:** creating a lesson adds its numbered link under a heading linked to the topic sheet in `lessons/lessons.md`. The topic remains a requirements sheet without lesson links. Renaming a lesson repairs the index link while preserving annotations; neither operation invents study completion. Check these behaviors live, not through installer tests alone.
 - **Safe provisioning:** a second setup run leaves real memory, lesson index annotations, and plugin settings unchanged and creates no invented progress.
 - **Interruption:** recorded milestones survive even when there is no end-of-day command.
 
