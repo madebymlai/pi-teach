@@ -17,6 +17,7 @@ def vault_files(subject):
     for source, destination in (
         (ROOT / "templates/vault", Path(".")),
         (ROOT / "skills/teach", Path(".pi/skills/teach")),
+        (ROOT / "plugins", Path(".obsidian/plugins")),
     ):
         if not source.is_dir():
             raise FileNotFoundError(f"Missing installer resources: {source}")
@@ -91,7 +92,9 @@ def main():
         except FileExistsError:
             print(f"Kept existing {relative}")
     print(f"\nVault: {vault}")
-    print("Open this folder as a vault in Obsidian.")
+    print("Open this folder as a vault in Obsidian; click lessons for its index, or open lessons/lessons.md.")
+    print("If plugin settings already existed, enable Folder Notes and Style HTML Viewer manually.")
+    print("Keep other HTML viewers disabled; existing plugin settings are preserved.")
     print(f"Start Pi: cd {shlex.quote(str(vault))} && pi")
     print("Trust the project when prompted, then run /skill:teach.")
 

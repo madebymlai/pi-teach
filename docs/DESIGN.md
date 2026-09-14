@@ -12,13 +12,13 @@ Help a computer-science university student organize daily study and prepare for 
 - **Use Matt Pocock's `teach` skill as the teaching entry point.** It owns onboarding, the timed recall → lesson → practice routine, teaching, and continuity.
 - **Keep planned and actual work separately owned.** `Roadmap.md` is the agreed timeline built during onboarding, edited only through explicit replanning. `learning-records/` captures what actually happened, how the student worked, and where to continue.
 - Course materials include lesson PDFs and exercises when available.
-- **Topics** are stable, source-grounded subject overviews in Obsidian Markdown, connecting prerequisites, sources, and related lessons.
+- **Topics** are university-style synopses in Obsidian Markdown: scope, prerequisites, definitions, hypotheses, principal results, and conceptual connections grounded in course sources. They are academic references rather than lesson directories.
 - **Lessons** are sequentially numbered HTML teaching units following Matt Pocock's Teach convention: `lessons/0001-slug.html`. They open inside Obsidian alongside topic notes and course PDFs.
 - `install.py` asks for the subject name and provisions one vault at `cwd/<subject>/`, including the adapted Teach skill and Quiz extension under that vault's `.pi/`.
 - **Pi runs alongside Obsidian.** Pi handles tutoring and planning; Obsidian displays and stores the study workspace.
 - **Provision Matt Pocock-style stateful teaching memory as a core capability.** `COURSE.md` holds the goal, course facts, constraints, and preferences; `SOURCES.md` indexes trusted material; `learning-records/` preserves learning insights. These steer fresh sessions as well as resumed ones. Proposed contract: [MEMORY.md](MEMORY.md).
 - `/home/laimk/git/computer-science/MDL/` is a reference in place. Do not clone, copy, or migrate it without approval.
-- No plugins have been installed or vetted for runtime compatibility as part of this design exploration.
+- Style HTML Viewer 1.0.5 is the selected lesson viewer, following a disposable-vault test in Obsidian 1.13.7 on Linux. Folder Notes 1.8.26 opens the topic-grouped `lessons/lessons.md` index by folder click; its runtime validation is pending.
 
 ## Proposed learning model
 
@@ -74,7 +74,7 @@ Preserves the mission, trusted resources, established language, preferences, and
 
 ### Obsidian presentation
 
-Native notes and views expose today's work, sources, learning records, and roadmap. Presentation should remain usable without a custom Obsidian plugin.
+Native notes and views expose today's work, sources, learning records, and roadmap. Course memory remains usable independently of the HTML viewer.
 
 Group these responsibilities in a small, tested implementation.
 
@@ -92,6 +92,7 @@ cwd/<subject>/
 ├── Sources/
 ├── topics/
 ├── lessons/
+│   └── lessons.md
 ├── assets/
 ├── .obsidian/app.json
 └── .pi/
@@ -106,7 +107,8 @@ cwd/<subject>/
 - `Roadmap.md`: the complete dated timeline agreed during onboarding, with topic objectives, planned practice, review, and checkpoints. Changes only during explicit replanning; actual progress and continuation are owned by learning records.
 - `Sources/`: original course files and labelled derivatives, indexed in `SOURCES.md`. External references can remain links; local-copy policy is not decided yet.
 - `learning-records/`: concise numbered records of actual study, attempts, approach, assistance, feedback, insights, and the stopping point. Distinguish exposure, assisted completion, independent performance, and delayed recall.
-- `topics/`: stable subject overviews drawn from course sources, with prerequisite links, exact source references, and an index of related lessons.
+- `topics/`: source-grounded university-style synopses, without lesson lists or study state.
+- `lessons/lessons.md`: general lesson index grouped by topic, with each topic heading linking to its synopsis. Navigation only; actual work remains in learning records.
 - `lessons/`: sequentially numbered HTML teaching units, each developing one capability through explanation, practice, and feedback.
 - `assets/`: shared lesson stylesheets, quiz widgets, diagram helpers, and other reusable teaching assets.
 
@@ -116,11 +118,11 @@ The `pi-teach` software repository stays separate from the student's vault. Its 
 
 ### Topics and lessons
 
-A topic page gives the general explanation of a subject area as presented in the sources. For example, `topics/induction.md` explains the induction principle and its scope, cites the lecturer's pages, links prerequisite topics, and indexes the relevant HTML lessons. Its content changes as sources are clarified or expanded.
+A topic page is a university-style synopsis of a subject area as presented in the sources. For example, `topics/induction.md` explains the induction principle, hypotheses, forms, connections, and role of its proof, with exact lecturer references. It stands independently of the student's lesson sequence and contains no lesson index. Its content changes as sources are clarified or expanded.
 
 A lesson develops a tightly-scoped capability through a short teaching sequence adapted to the learner. For example, `lessons/0001-first-induction-proof.html` introduces a motivated example, explains the reasoning, and provides practice with feedback. Several lessons can develop different capabilities within one topic.
 
-Number lessons sequentially within each course using `0001-<dash-case-name>.html`, following the source skill. Preserve numbers when replanning. Topic pages index lesson numbers and titles; sessions resolve the timeline's objective to the appropriate lesson through that index. Creating a new lesson updates its topic index without editing the roadmap.
+Number lessons sequentially within each course using `0001-<dash-case-name>.html`, following the source skill. Preserve numbers when replanning. Sessions resolve the timeline's objective through `lessons/lessons.md`, grouped under linked topic headings. Creating a new lesson updates this folder note without editing the roadmap. The index format and maintenance instructions live in `skills/teach/SKILL.md`.
 
 Each lesson cites authoritative sources, links related lessons and references, and invites follow-up questions in Pi. Use readable typography and a consistent shared stylesheet. Reuse existing assets when authoring new lessons.
 
@@ -187,13 +189,13 @@ Core Bases can expose note properties as filtered course/review views. Templates
 
 ### HTML lessons
 
-Each lesson's canonical artifact is its numbered HTML page, linked from Obsidian topic pages and the roadmap. The lesson includes its teaching sequence and can use interactive quizzes, algorithm traces, simulators, or manipulable examples when useful. Shared lesson assets provide consistent styling and rendering of mathematics and diagrams.
+Each lesson's canonical artifact is its numbered HTML page, linked from the lesson folder index and, where already available during planning, the roadmap. The lesson includes its teaching sequence and can use interactive quizzes, algorithm traces, simulators, or manipulable examples when useful. Shared lesson assets provide consistent styling and rendering of mathematics and diagrams.
 
-HTML lessons open in an Obsidian tab or split pane. The first implementation candidate is the desktop core Web viewer loading locally served lesson pages. Verify it with the installed Obsidian version before adopting it. If it cannot meet the lesson requirements, evaluate an explicitly approved HTML-viewer plugin. In-Obsidian viewing is an acceptance requirement.
+HTML lessons open directly in an Obsidian tab or split pane using the bundled Style HTML Viewer. It resolves shared local assets and links between lessons and Markdown topics without a local server. Direct Reader was tested first and replaced because its toolbar was hardcoded in Chinese.
 
-Obsidian sanitizes HTML inside Markdown notes, including scripts. Use the dedicated lesson viewer and preserve Markdown sanitization. If a local server is needed, serve only the intended lesson and asset directories on loopback; do not expose the whole vault or a generic filesystem-write endpoint. Provision explicit server startup and shutdown behavior.
+Obsidian sanitizes HTML inside Markdown notes, including scripts. Use the dedicated lesson viewer and preserve Markdown sanitization.
 
-Test navigation from topic notes to lesson pages and back to course sources, plus rendering of mathematics, diagrams, and interactive exercises inside Obsidian. Validate the results handoff before using lesson activity as learning evidence. Until then, the student brings their work back to Pi for review.
+Test navigation from the lessons folder to its Markdown index, from linked headings to topic synopses, and from index entries to HTML lessons and back, plus source links and rendering of mathematics, diagrams, and interactive exercises inside Obsidian. Validate the results handoff before using lesson activity as learning evidence. Until then, the student brings their work back to Pi for review.
 
 ## Setup script
 
@@ -201,18 +203,18 @@ Implemented in `install.py` using the Python standard library:
 
 - Ask for one subject folder name and create `cwd/<subject>/`; spaces and Unicode are supported.
 - Preview the same destination with `--dry-run` without writing files.
-- Create course-memory scaffolding, content directories, and minimal Obsidian configuration that shows unsupported file types.
+- Create course-memory scaffolding, content directories, an empty `lessons/lessons.md` folder note, and Obsidian configuration including Style HTML Viewer and Folder Notes in the default community-plugin selection. Copy the pinned plugins with licenses and source directions. Folder Notes settings use inside-folder Markdown notes and disable automatic creation and rename/move/delete synchronization.
 - Copy the adapted `teach` skill with all supporting formats and metadata into `.pi/skills/teach/`, and Quiz into `.pi/extensions/quiz.ts`.
 - Generate subject-local `.pi/settings.json` using the installing user's home path. Keep global Ask User Question, Web Search, and Web Fetch; exclude other auto-discovered extensions under `~/.pi/agent/extensions/`, including CBMem. Keep local Quiz enabled. Global configuration and extension files remain unchanged. Existing project settings are preserved; global package-based extensions are outside this directory filter.
 - Install an `AGENTS.md` context pointer for the memory-loading behavior in [MEMORY.md](MEMORY.md).
-- Create missing files on reruns and preserve existing notes, settings, skills, extensions, and learning records. Report preserved files; automatic upgrades are outside this initial installer.
+- Create missing files on reruns and preserve existing notes, settings, skills, extensions, plugins, and learning records. Report preserved files; automatic upgrades are outside this initial installer.
 - Reject invalid subject paths, destination symlinks, and file/directory conflicts before writes.
-- Work offline without changing global settings, installing applications or plugins, launching processes, configuring sync, publishing, or migrating external study directories.
+- Work offline from bundled resources without changing global settings, installing applications, launching processes, configuring sync, publishing, or migrating external study directories.
 - Open the resulting folder as a vault manually in Obsidian; run Pi from that folder and approve project trust when prompted.
 
 Filesystem provisioning has CLI tests; Quiz and Teach resource loading has a Pi smoke test. Interactive Quiz behavior and the continuity acceptance tests still need live validation.
 
-In-Obsidian HTML viewing remains pending. Showing HTML files in the vault does not render them. Select and verify the viewer before adding its configuration, any loopback serving support, and rendering smoke tests. Community plugins require explicit approval and reviewed/pinned provenance; preserve restricted mode unless the student approves a specific plugin.
+Both plugins are included by default; Obsidian's first-open vault trust flow remains unchanged. Existing plugin selections and data files are preserved, so older vaults may need the plugins enabled or their folder-note convention reviewed manually. Folder-click navigation remains unverified at runtime. The desktop smoke test verified shared CSS/JavaScript, a local SVG, native MathML, interactive success feedback, and navigation between HTML and Markdown. KaTeX/MathJax, mobile, automatic refresh, and results handoff remain unverified.
 
 ## First prototype
 
@@ -224,7 +226,7 @@ Prove one real study day before expanding the system:
 4. Invoke `teach` to select or create a lesson from the roadmap and learning records, then work through it with the student.
 5. Record help, result, misconception, and next action.
 6. Start a fresh Pi session and verify it uses the saved mission, preferences, and learning record to select tomorrow's work without duplicate progress updates.
-7. Open a topic overview in Obsidian and follow its link to a numbered HTML lesson in an Obsidian tab or split pane. Verify mathematics, diagrams, interactions, shared assets, and navigation back to course sources.
+7. Click the lessons folder to open its grouped index. Follow a topic heading to its synopsis and a lesson entry to its numbered HTML page in an Obsidian tab or split pane. Verify mathematics, diagrams, interactions, shared assets, and navigation back to course sources.
 
 Keep the prototype focused on this complete study-and-resume loop.
 
@@ -234,7 +236,7 @@ Keep the prototype focused on this complete study-and-resume loop.
 2. Main assessment formats and realistic weekly availability?
 3. Existing Obsidian version, desktop/mobile requirements, and handwriting workflow?
 4. Source copy/reference policy and privacy constraints?
-5. Topic-note appearance, HTML lesson styling, and the choice of in-Obsidian HTML viewer?
+5. Topic-note appearance and HTML lesson styling?
 6. Whether a separate review scheduler is needed as the course grows?
 7. Whether to adopt Spaced Repetition, an Anki bridge, or neither initially?
 

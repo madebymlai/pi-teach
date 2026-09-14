@@ -36,7 +36,7 @@ Planning basis: [[COURSE]] and [[SOURCES]].
 <Only explicit, agreed replanning decisions: date, reason, and affected future work.>
 ```
 
-Link existing topics, lessons, and exact source tasks where available. For a lesson not yet created, specify its topic and objective; resolve its eventual numbered file through the topic's lesson index during teaching. Creating a lesson does not require editing the timeline. Availability and exam facts remain authoritative in `COURSE.md`; the timetable is their agreed allocation.
+Link existing topics, lessons, and exact source tasks where available. For a lesson not yet created, specify its topic and objective; resolve its eventual numbered file through the topic group in `lessons/lessons.md` during teaching. Creating a lesson does not require editing the timeline. Availability and exam facts remain authoritative in `COURSE.md`; the timetable is their agreed allocation.
 
 The timeline contains planned work. Keep completion checkboxes, actual scores, last-studied pointers, and daily progress summaries in learning records rather than adding them here.
 

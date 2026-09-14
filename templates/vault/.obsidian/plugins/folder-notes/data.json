@@ -1,0 +1,20 @@
+{
+  "folderNoteName": "{{folder_name}}",
+  "storageLocation": "insideFolder",
+  "supportedFileTypes": ["md"],
+  "hideFolderNote": true,
+  "openByClick": true,
+  "openWithCtrl": false,
+  "openWithAlt": false,
+  "enableCollapsing": false,
+  "stopWhitespaceCollapsing": false,
+  "openFolderNoteOnClickInPath": false,
+  "ctrlKey": false,
+  "altKey": false,
+  "autoCreate": false,
+  "autoCreateForFiles": false,
+  "autoCreateForAttachmentFolder": false,
+  "syncFolderName": false,
+  "syncMove": false,
+  "syncDelete": false
+}

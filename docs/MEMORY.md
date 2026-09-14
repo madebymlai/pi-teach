@@ -23,7 +23,8 @@ These documents consolidate Teach's goal, resource, and preference memory into t
 
 - Optional `GLOSSARY.md`: compressed terminology established with the learner. Add terms after demonstrated understanding and revise definitions as it deepens. Course-wide notation lives in `COURSE.md`; current recall is checked through review.
 - Student work and feedback belong in the relevant learning record, with attachments when needed.
-- `topics/`: stable subject explanations grounded in course sources, linking prerequisites, source pages, and related lessons.
+- `topics/`: university-style synopses grounded in course sources, with prerequisites, definitions, hypotheses, principal results, and conceptual connections; no lesson lists or study state.
+- `lessons/lessons.md`: the navigation index, grouped under headings linking to topic synopses. Its entries identify existing lessons, not lessons studied.
 - `lessons/0001-slug.html`: sequentially numbered HTML teaching units, each developing one capability through explanation, practice, and feedback. Lesson scope and selection are adapted using learning records.
 
 `SOURCES.md` indexes the original materials and labelled derivatives stored in `Sources/`.
@@ -59,7 +60,7 @@ Before teaching after startup, a new session, compaction, or a course switch:
 
 1. Resolve the course from the selected task/workspace. Ask when ambiguous.
 2. Load `COURSE.md`, `SOURCES.md`, the current roadmap, and a map of the course's available learning records.
-3. Read the latest actual study record and records for the planned outcome, prerequisites, unresolved misconceptions, and any superseding evidence. Load the relevant topic overview, its lesson index, source references, and glossary entries if a glossary exists.
+3. Read the latest actual study record and records for the planned outcome, prerequisites, unresolved misconceptions, and any superseding evidence. Load `lessons/lessons.md`, the relevant topic synopsis, source references, and glossary entries if a glossary exists.
 4. Compare the dated timeline with the actual continuation point. Present a timed recall → lesson → practice-and-feedback briefing; recall includes the previous lesson actually studied and persistent errors. Resolve uncertain activity by asking the student rather than inferring it from existing lesson files.
 
 Start with direct files. Small courses can load all learning records. If growth later requires an index, use a rebuildable navigation aid with coverage and freshness checks. Read the relevant source records and check retrieval coverage before concluding that history is absent.
@@ -93,7 +94,7 @@ These are live behavioral checks; installer and resource-loading tests do not es
 - **Initial timeline:** with confirmed dates, syllabus, sources, and availability, onboarding proposes a complete dated route through exam day, including recall, lesson objectives, exact practice where sources permit, independent checkpoints, review, and buffer time. It obtains agreement before saving the initial plan; an unknown or past exam date triggers clarification.
 - **Timed routine:** given 90 minutes and a previous lesson with a persistent misconception, the briefing names that recall target, the next lesson objective and source pages, and specific practice. All phases, breaks, correction, and closing fit within the available time. Results are assessed after the student's attempt.
 - **No exercise sheets:** given a conceptual chapter, the tutor creates source-grounded practice and collects a full explanation through `ask_user_question` without options. It waits for the answer, assesses accuracy, completeness, and reasoning, and records the student's response, assistance, and remaining gaps. Multiple-choice checks use Quiz; the timeline stays unchanged.
-- **Stable roadmap:** save the roadmap bytes before an ordinary session. Complete a lesson, attempt exercises, correct a misconception, and create a follow-up lesson if needed. Learning records and the topic index reflect the actual work; the roadmap bytes remain unchanged.
+- **Stable roadmap:** save the roadmap bytes before an ordinary session. Complete a lesson, attempt exercises, correct a misconception, and create a follow-up lesson if needed. Learning records reflect the actual work and the folder index lists the new lesson under its linked topic heading; the roadmap bytes remain unchanged.
 - **Partial work:** stop after reading a lesson and starting an exercise. The record identifies both activities and the stopping point, with understanding unverified. A fresh session resumes from that evidence instead of assuming the day's planned work was completed.
 - **Explicit replanning:** simulate missed sessions or changed availability that make the remaining schedule unworkable. The tutor presents the mismatch and trade-offs, leaves the roadmap unchanged until approval, then revises affected future rows and checkpoints consistently with a dated reason. Existing learning records remain intact.
 - **Fresh session:** start from `COURSE.md`, `SOURCES.md`, the roadmap, and learning records after an assisted induction exercise; the tutor identifies the troublesome step, proposes a follow-up, and marks independent performance as unverified.
@@ -101,7 +102,8 @@ These are live behavioral checks; installer and resource-loading tests do not es
 - **Course switch:** selecting another course uses its mission and records; returning restores the original course context.
 - **Correction:** a later successful independent exercise supersedes the earlier interpretation while preserving the evidence history.
 - **Preferences:** the next session applies the recorded teaching preferences.
-- **Safe provisioning:** a second setup run leaves real memory unchanged and creates no invented progress.
+- **Lesson navigation:** creating a lesson adds its numbered link under a heading linked to the topic synopsis in `lessons/lessons.md`. The synopsis remains an academic reference without lesson links. Renaming a lesson repairs the index link while preserving annotations; neither operation invents study completion. Check these behaviors live, not through installer tests alone.
+- **Safe provisioning:** a second setup run leaves real memory, lesson index annotations, and plugin settings unchanged and creates no invented progress.
 - **Interruption:** recorded milestones survive even when there is no end-of-day command.
 
 An optional transcript mirror provides a readable session history alongside the course memory.

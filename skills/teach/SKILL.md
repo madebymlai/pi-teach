@@ -14,7 +14,8 @@ Treat the current directory as a teaching workspace. The state of their learning
 - `COURSE.md`: The reason for learning, observable success criteria, syllabus, assessment format/dates, constraints, availability, preferences, and notation. Use [COURSE-FORMAT.md](./COURSE-FORMAT.md).
 - `SOURCES.md`: Annotated trusted course material, supporting references, people, and gaps. Originals can live in `Sources/` or remain linked in place. Use [SOURCES-FORMAT.md](./SOURCES-FORMAT.md).
 - `Roadmap.md`: The agreed timeline from onboarding through exam day: dated topics, objectives, practice, review, and checkpoints. It changes only through explicit replanning.
-- `topics/*.md`: Stable, source-grounded subject explanations in Obsidian Markdown, with prerequisite links, exact source references, and an index of related numbered lessons.
+- `topics/*.md`: University-style synopses of subject areas in Obsidian Markdown, grounded in course sources. See [Topic references and learning updates](#topic-references-and-learning-updates).
+- `lessons/lessons.md`: The lesson folder note and general index, grouped by topic. See [Lessons](#lessons).
 - `./learning-records/*.md`: What the student actually studied and did, how they approached it, assistance received, recall results, insights, and difficulties. These records establish the continuation point and zone of proximal development. Use sequential `0001-<dash-case-name>.md` files following [LEARNING-RECORD-FORMAT.md](./LEARNING-RECORD-FORMAT.md).
 - `./lessons/*.html`: A directory of lessons. A **lesson** is a single, self-contained HTML output that teaches one tightly-scoped thing tied to the mission. This is the primary unit of teaching in this workspace.
 - `./assets/*`: Reusable **components** shared across lessons. See [Assets](#assets).
@@ -25,7 +26,7 @@ Treat the current directory as a teaching workspace. The state of their learning
 Before teaching, including after a new session, compaction, or course switch:
 
 1. Resolve the selected subject vault and read `COURSE.md`, `SOURCES.md`, and `Roadmap.md`. Ask the student when the workspace is ambiguous. Onboarding uses the global `ask_user_question`, one question at a time; confirm missing goals, exam facts, and study availability before relying on them. Installer placeholders mean unconfirmed information.
-2. List `learning-records/` and read the latest actual study record plus records relevant to the planned topic, prerequisites, unresolved misconceptions, and their superseding records. For a small course, read all records. Establish the previous lesson actually studied and any unfinished task; a lesson file's existence alone does not establish that it was studied. Load the relevant topic, lesson index, glossary entries if present, and source pages.
+2. List `learning-records/` and read the latest actual study record plus records relevant to the planned topic, prerequisites, unresolved misconceptions, and their superseding records. For a small course, read all records. Establish the previous lesson actually studied and any unfinished task; a lesson file's existence alone does not establish that it was studied. Load `lessons/lessons.md`, the relevant topic synopsis, glossary entries if present, and source pages.
 3. Determine today's date and compare the agreed timeline with actual work. If there is no agreed timeline yet, build it using [ROADMAP-FORMAT.md](./ROADMAP-FORMAT.md). If delays, substantial learning gaps, or changed constraints make it unworkable, use that document's explicit replanning procedure. Ordinary session progress leaves `Roadmap.md` unchanged.
 4. Confirm today's available time when unknown, then give the timed briefing below. Select the next lesson from the timeline and actual continuation point, accounting for the prerequisites the records show need attention.
 
@@ -58,7 +59,7 @@ Allocate minutes to fit today's total, including correction, breaks, and saving 
 
 Run recall before exposing answers or reopening notes. Use free recall, a short derivation, or a diagnostic quiz as appropriate. Check what survived from the previous lesson and revisit persistent errors across sessions; for example, a corrected definition may still fail after a night. Let the results determine the explanation or prerequisite repair needed today, within the available time. Record any departure from the planned work in learning records; changes to the timeline require explicit replanning.
 
-Reuse an existing lesson when it fits. Otherwise create the next numbered, tightly scoped HTML lesson and add it to the relevant topic's lesson index. Follow the explanation, worked-example, independent-practice, and feedback approach below. For a timed checkpoint, agree the task, time limit, permitted aids, and success criterion before starting; assess the student's work after their attempt and interpret assistance explicitly.
+Reuse an existing lesson when it fits. Otherwise create the next numbered, tightly scoped HTML lesson and register it in `lessons/lessons.md` as described below. Follow the explanation, worked-example, independent-practice, and feedback approach below. For a timed checkpoint, agree the task, time limit, permitted aids, and success criterion before starting; assess the student's work after their attempt and interpret assistance explicitly.
 
 At a meaningful study milestone or stopping point, save actual work and evidence using [LEARNING-RECORD-FORMAT.md](./LEARNING-RECORD-FORMAT.md), even when understanding remains unverified. Close with where the student stopped, what needs recall, and the likely next lesson from the existing timeline. If work happened outside Pi, ask what was done and label it self-reported. Ordinary closure updates learning records only; keep completion marks and session cursors out of `Roadmap.md`.
 
@@ -90,13 +91,17 @@ Fluency can give the user an illusory sense of mastery, but storage strength is 
 
 A lesson is the main thing you produce: the unit in which knowledge and skills reach the user. Each lesson is one self-contained HTML file, saved to `./lessons/` and titled `0001-<dash-case-name>.html` where the number increments each time.
 
+Maintain `lessons/lessons.md` as a plain Markdown index of existing lessons, grouped by topic. Each topic heading links to its synopsis (for example, `## [[topics/induction|Induction]]`); underneath, list the numbered HTML lesson links in numerical order, using vault-relative wikilinks with `.html` included. List each lesson once under its primary topic. Update this index when creating or renaming a lesson, preserving student annotations and lesson numbers. For an older vault without the index, build it from existing lesson files and topic notes; an index entry establishes availability, not completed study. Learning evidence stays in `learning-records/`.
+
+The bundled Folder Notes plugin opens this index by clicking the `lessons` folder name. Without the plugin, open `lessons/lessons.md` directly. Existing plugin settings are preserved by the installer; help the student enable Folder Notes if needed rather than replacing their settings.
+
 A lesson should be **beautiful**, with clean, readable typography and layout, since the user will return to these later to review. Think Tufte.
 
 The lesson should be short, and completable very quickly. Learners' working memory is very small, and we need to stay within it. But each lesson should give the user a single tangible win that they can build on. It should be directly tied to the mission, and should be in the user's zone of proximal development.
 
-Open lessons inside Obsidian using a verified lesson viewer. The installer currently provides the vault scaffolding only; HTML viewing is not configured. When a lesson needs viewing and no verified viewer is available, explain the missing setup and agree on it with the student. Preserve Obsidian's Markdown sanitization; scripts belong in the dedicated HTML viewer.
+Open numbered `.html` lessons directly in Obsidian with the bundled Style HTML Viewer. If it is unavailable, help the student enable it under Community plugins; existing vault settings are preserved by the installer. Preserve Obsidian's Markdown sanitization; scripts belong in the dedicated HTML viewer.
 
-Each lesson should link via HTML anchors to other lessons and reference documents.
+Each lesson should link via HTML anchors to `lessons.md`, its topic synopsis, and related lessons and reference documents.
 
 Each lesson should recommend a primary source for the user to read or watch. This should be the most high-quality, high-trust resource you found on the topic.
 
@@ -153,7 +158,7 @@ Wait for the attempt before revealing a model answer. Assess accuracy, completen
 
 ## Topic references and learning updates
 
-As lessons develop, maintain `topics/` as general subject explanations grounded in the course sources. Include prerequisites, definitions and assumptions, exact source references, and an index of the related numbered HTML lessons. Topic pages remain useful across multiple lessons and reviews.
+Maintain `topics/` as university-style synopses grounded in the course sources: the area's scope and prerequisites, definitions and assumptions, principal results with their conditions, conceptual connections, and exact source references. Explain the role or idea of a proof where it clarifies a result. A synopsis should stand on its own as an academic reference, independent of lesson order or the student's current difficulties. Lesson listings belong exclusively in `lessons/lessons.md`; topic pages contain neither lesson indexes nor study-progress state. When moving an existing topic's lesson list to the folder note, preserve its explanations and student annotations.
 
 Create a glossary when terminology benefits from a dedicated reference. Add terms after demonstrated understanding; follow its established language consistently in lessons.
 

@@ -1,5 +1,6 @@
 """Exercise the installer CLI against disposable working directories."""
 
+import hashlib
 import json
 import os
 import re
@@ -58,6 +59,61 @@ class InstallerTests(unittest.TestCase):
         )
         self.assertFalse((vault / ".pi/extensions/ask-user-question.ts").exists())
 
+    def test_seeds_lesson_folder_index_without_inventing_content(self):
+        result = self.install(answer="MDL\n")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        vault = self.cwd / "MDL"
+        index = vault / "lessons/lessons.md"
+        self.assertTrue(index.is_file(), "Missing lessons/lessons.md folder note")
+        self.assertEqual(list((vault / "lessons").iterdir()), [index])
+        self.assertEqual(list((vault / "topics").iterdir()), [])
+        self.assertEqual(list((vault / "learning-records").iterdir()), [])
+        self.assertNotIn("[[", index.read_text(), "An empty vault has no topics or lessons to link")
+
+    def test_installs_pinned_html_viewer_by_default(self):
+        result = self.install(answer="MDL\n")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        obsidian = self.cwd / "MDL/.obsidian"
+        self.assertEqual(
+            json.loads((obsidian / "community-plugins.json").read_text()),
+            ["style-html-viewer", "folder-notes"],
+        )
+        plugin = obsidian / "plugins/style-html-viewer"
+        # Digests published with upstream release 1.0.5, not derived from our bundle.
+        for name, digest in {
+            "main.js": "3e2e2c9b5e0ff38c226efd4ec70ba66e3664fa0774115de96c916cdc07a7f4ad",
+            "manifest.json": "af789c30a9c88f6ddf75b0d2fb243590422cb33292e6296df7628337920faf5d",
+            "styles.css": "f77d192438c2fa40b156b94bb060fa9efc14efd3313363bfbd99ab4ca8045807",
+        }.items():
+            self.assertEqual(hashlib.sha256((plugin / name).read_bytes()).hexdigest(), digest, name)
+        self.assertIn("Permission is hereby granted", (plugin / "LICENSE").read_text())
+
+    def test_installs_pinned_folder_notes_for_clickable_markdown_index(self):
+        result = self.install(answer="MDL\n")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        plugin = self.cwd / "MDL/.obsidian/plugins/folder-notes"
+        self.assertTrue(plugin.is_dir(), "Folder Notes must be bundled for offline setup")
+        # Published GitHub release 1.8.26 digests, independent of our local bundle.
+        for name, digest in {
+            "main.js": "83d7b91819abac39626349c1b20aef2503a7cb4339334d52115650aec011a216",
+            "manifest.json": "d68704cb787fb687a3d6261a77e93d39c9409ef1dab4e37bfc67a6f96b493536",
+            "styles.css": "c736732880c7737a30f713d5496f36612a4f64cce96bab0315397ce14b975f6b",
+        }.items():
+            self.assertEqual(hashlib.sha256((plugin / name).read_bytes()).hexdigest(), digest, name)
+        self.assertIn("GNU AFFERO GENERAL PUBLIC LICENSE", (plugin / "LICENSE").read_text())
+        self.assertIn("1.8.26", (plugin / "SOURCE.md").read_text())
+        settings = json.loads((plugin / "data.json").read_text())
+        # Upstream settings schema: an inside-folder Markdown note, plain click,
+        # and no automatic creation, rename, move, or deletion of other notes.
+        self.assertEqual(settings["folderNoteName"], "{{folder_name}}")
+        self.assertEqual(settings["storageLocation"], "insideFolder")
+        self.assertEqual(settings["supportedFileTypes"], ["md"])
+        self.assertFalse(settings["openWithCtrl"])
+        self.assertFalse(settings["openWithAlt"])
+        for name in ("autoCreate", "autoCreateForFiles", "autoCreateForAttachmentFolder",
+                     "syncFolderName", "syncMove", "syncDelete"):
+            self.assertFalse(settings[name], name)
+
     def test_subject_settings_keep_only_selected_global_extensions(self):
         home = self.cwd / 'Home "quotes" è'
         result = self.install(answer="MDL\n", home=home)
@@ -79,10 +135,17 @@ class InstallerTests(unittest.TestCase):
         vault = self.cwd / "MDL"
         for name, content in {
             "COURSE.md": "My confirmed exam goal\n",
+            "lessons/lessons.md": "# Lessons\n\n## [[topics/induction|Induction]]\n- [[lessons/0001-induction.html|0001 — Induction]]\n\nMy annotation.\n",
+            "lessons/0001-induction.html": "<h1>My actual lesson</h1>\n",
             "learning-records/0001-induction.md": "Needed two hints; independent use unverified.\n",
             ".pi/extensions/quiz.ts": "// My locally adjusted extension\n",
             ".pi/settings.json": '{"theme": "light"}\n',
             ".obsidian/app.json": '{"vimMode": true}\n',
+            ".obsidian/community-plugins.json": '["my-other-plugin"]\n',
+            ".obsidian/plugins/style-html-viewer/main.js": "// My locally adjusted viewer\n",
+            ".obsidian/plugins/style-html-viewer/data.json": '{"myPreference": true}\n',
+            ".obsidian/plugins/folder-notes/main.js": "// My locally adjusted folder notes plugin\n",
+            ".obsidian/plugins/folder-notes/data.json": '{"storageLocation": "parentFolder", "myPreference": true}\n',
         }.items():
             (vault / name).write_text(content)
         before = {
@@ -142,7 +205,7 @@ class InstallerTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         skill_dir = self.cwd / "MDL/.pi/skills/teach"
         skill = (skill_dir / "SKILL.md").read_text()
-        for reference in ("COURSE.md", "SOURCES.md", "Roadmap.md", "topics/", "learning-records/"):
+        for reference in ("COURSE.md", "SOURCES.md", "Roadmap.md", "topics/", "lessons/lessons.md", "learning-records/"):
             self.assertIn(reference, skill)
         for path in skill_dir.rglob("*.md"):
             text = path.read_text()
