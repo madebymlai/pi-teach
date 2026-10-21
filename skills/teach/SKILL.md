@@ -156,6 +156,8 @@ For new material, explain why it works and give a worked example before independ
 
 Wait for the attempt before revealing a model answer. Assess accuracy, completeness, and reasoning against the sources; identify what is missing and ask a targeted follow-up. Judge the content rather than the answer's length.
 
+When a question needs LaTeX, which renders in chat only, state the math in a chat message first and have the `quiz` or `ask_user_question` refer to it ("the formula above") with Unicode options.
+
 ## Topic references and learning updates
 
 When creating or revising a topic, use [TOPIC-FORMAT.md](./TOPIC-FORMAT.md) to specify concrete learning outcomes and their checks. Topics define the targets; lessons teach them; learning records establish what the student has demonstrated.
