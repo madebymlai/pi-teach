@@ -31,7 +31,7 @@ Linear Algebra/
 │       ├── style-html-viewer/
 │       └── folder-notes/
 └── .pi/
-    ├── settings.json      # Subject-local global-extension allowlist
+    ├── settings.json      # Subject-local global-extension and skill filters
     ├── skills/teach/       # Teach plus all supporting formats and metadata
     └── extensions/quiz.ts
 ```
@@ -48,7 +48,9 @@ Reruns create missing files and preserve every existing file, including edited s
 
 The generated `.pi/settings.json` keeps global Ask User Question, Web Search, and Web Fetch, and excludes the other extensions auto-discovered under `~/.pi/agent/extensions/`, including CBMem. Local Quiz remains enabled. The paths use the installing user's home directory and the existing global entrypoints (`ask-user-question.ts`, `web-search/index.ts`, `web-fetch/index.ts`); missing global tools are not installed. Additional extensions later added under that global directory are also excluded in the subject. Global package-based extensions are outside this directory filter.
 
-Existing `.pi/settings.json` files are preserved on reruns, so an existing vault's extension selection is not automatically upgraded. Restart Pi from the subject folder after changing its settings.
+The settings also exclude skills under `~/.pi/agent/skills/`, including skills added there later, while keeping the bundled local `teach` skill enabled. Skills from packages or other directories are outside this filter. Global settings remain unchanged.
+
+Existing `.pi/settings.json` files are preserved on reruns, so an existing vault's extension and skill selection is not automatically upgraded. Restart Pi from the subject folder after changing its settings.
 
 The installer works offline, copies local resources including Style HTML Viewer 1.0.5 and Folder Notes 1.8.26, and leaves global Pi and Obsidian configuration alone. It does not install Pi or Obsidian, download resources, copy external courses, or launch a server. Unknown course facts remain marked unconfirmed until onboarding.
 
@@ -93,7 +95,7 @@ From this repository:
 python3 -m unittest discover -s tests -v
 ```
 
-Optional resource-loading and extension-filtering smoke test against an installed Pi (uses disposable global-extension fixtures; no model calls or real global resources):
+Optional resource-loading and filtering smoke test against an installed Pi (uses disposable global-extension and skill fixtures; no model calls or real global resources):
 
 ```sh
 node tests/smoke-pi.mjs "$(npm root -g)/@earendil-works/pi-coding-agent/dist/index.js"

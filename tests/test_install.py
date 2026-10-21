@@ -115,13 +115,14 @@ class InstallerTests(unittest.TestCase):
                      "syncFolderName", "syncMove", "syncDelete"):
             self.assertFalse(settings[name], name)
 
-    def test_subject_settings_keep_only_selected_global_extensions(self):
+    def test_subject_settings_filter_global_extensions_and_skills(self):
         home = self.cwd / 'Home "quotes" è'
         result = self.install(answer="MDL\n", home=home)
         self.assertEqual(result.returncode, 0, result.stderr)
         settings = json.loads((self.cwd / "MDL/.pi/settings.json").read_text())
         extensions = str(home / ".pi/agent/extensions")
-        self.assertEqual(settings, {"extensions": [
+        skills = str(home / ".pi/agent/skills")
+        self.assertEqual(settings, {"skills": [skills, "!" + skills + "/**"], "extensions": [
             extensions,
             "!" + extensions + "/**",
             "+" + extensions + "/ask-user-question.ts",

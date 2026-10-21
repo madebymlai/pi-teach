@@ -28,9 +28,10 @@ def vault_files(subject):
                     content = content.replace(b"{{subject}}", subject.encode("utf-8"))
                 files[destination / path.relative_to(source)] = content
     files[Path(".pi/extensions/quiz.ts")] = (ROOT / "extensions/quiz.ts").read_bytes()
-    # Resolve global extensions in project scope so these filters take precedence.
+    # Resolve global resources in project scope so these filters take precedence.
     extensions = str(Path.home() / ".pi/agent/extensions")
-    settings = {"extensions": [
+    skills = str(Path.home() / ".pi/agent/skills")
+    settings = {"skills": [skills, "!" + skills + "/**"], "extensions": [
         extensions,
         "!" + extensions + "/**",
         "+" + extensions + "/ask-user-question.ts",

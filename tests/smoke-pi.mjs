@@ -22,6 +22,14 @@ try {
     mkdirSync(dirname(path), { recursive: true });
     writeFileSync(path, "export default function () {}\n");
   }
+  const globalSkills = join(agentDir, "skills");
+  const addGlobalSkill = name => {
+    const path = join(globalSkills, name, "SKILL.md");
+    mkdirSync(dirname(path), { recursive: true });
+    writeFileSync(path, `---\nname: ${name}\ndescription: Smoke test fixture.\n---\nFixture.\n`);
+    return path;
+  };
+  const disabledSkills = [addGlobalSkill("codebase-design")];
   const globalSettings = '{"theme":"light"}\n';
   writeFileSync(join(agentDir, "settings.json"), globalSettings);
   const installed = spawnSync("python3", [join(root, "install.py")], {
@@ -33,6 +41,7 @@ try {
   // New global extensions must also remain excluded after installation.
   disable.push("added-later.ts");
   writeFileSync(join(globalExtensions, "added-later.ts"), "export default function () {}\n");
+  disabledSkills.push(addGlobalSkill("added-later"));
   const resources = async cwd => new pi.DefaultPackageManager({
     cwd, agentDir,
     settingsManager: pi.SettingsManager.create(cwd, agentDir, { projectTrusted: true }),
@@ -42,7 +51,13 @@ try {
   assert.deepEqual(enabled.sort(), [
     ...keep.map(name => join(globalExtensions, name)), join(vault, ".pi/extensions/quiz.ts"),
   ].sort());
+  assert.deepEqual(subject.skills.filter(skill => skill.enabled).map(skill => skill.path), [
+    join(vault, ".pi/skills/teach/SKILL.md"),
+  ]);
   const outside = await resources(temporary);
+  for (const path of disabledSkills) {
+    assert.equal(outside.skills.find(skill => skill.path === path)?.enabled, true, path);
+  }
   for (const name of [...keep, ...disable]) {
     assert.equal(outside.extensions.find(extension => extension.path === join(globalExtensions, name))?.enabled, true, name);
   }
@@ -54,7 +69,7 @@ try {
   const skills = pi.loadSkillsFromDir({ dir: join(vault, ".pi/skills"), source: "project" });
   assert.deepEqual(skills.diagnostics, []);
   assert.deepEqual(skills.skills.map(skill => skill.name), ["teach"]);
-  console.log("Installed Quiz and Teach load; subject-only global-extension filtering verified.");
+  console.log("Installed Quiz and Teach load; subject-only global-extension and skill filtering verified.");
 } finally {
   rmSync(temporary, { recursive: true, force: true });
 }
